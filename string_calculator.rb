@@ -5,10 +5,16 @@ class StrCalculator
 
   def str_calculate
     if @str.empty?
-      "empty str"
+      0 # instaed of empty string will display 0 count
     else
-      delimiter, numbers = extract_delimiter_and_numbers(@str)
-      numbers.split(delimiter).map(&:to_i).inject(:+)
+      begin
+        delimiter, numbers = extract_delimiter_and_numbers(@str)
+        negatives = find_negatives(numbers, delimiter)
+        raise "Negative numbers not allowed: #{negatives.join(', ')}" unless negatives.empty?
+        numbers.split(delimiter).map(&:to_i).inject(:+)
+      rescue StandardError => e
+        e.message
+      end
     end
   end
 
@@ -24,14 +30,26 @@ class StrCalculator
     end
     [delimiter, numbers]
   end
+
+  def find_negatives(numbers, delimiter)
+    numbers.split(delimiter).map(&:to_i).select { |n| n < 0 }
+  end
 end
 
 # Test cases
+calculator1 = StrCalculator.new("")
+puts calculator1.str_calculate  # Output: 0
+
+calculator1 = StrCalculator.new("1,2,7")
+puts calculator1.str_calculate  # Output: 10 (1 + 2 + 7)
+
 calculator1 = StrCalculator.new("1\n2,3")
 puts calculator1.str_calculate  # Output: 6 (1 + 2 + 3)
 
-calculator2 = StrCalculator.new("//;\n1;2")
-puts calculator2.str_calculate  # Output: 3 (1 + 2)
+calculator2 = StrCalculator.new("//;\n1;-2;3")
+# This will print: "Negative numbers not allowed: -2"
+puts calculator2.str_calculate
 
-calculator3 = StrCalculator.new("3\n1")
-puts calculator3.str_calculate  # Output: 4 (3 + 1)
+calculator3 = StrCalculator.new("3\n-1")
+# This will print: "Negative numbers not allowed: -1"
+puts calculator3.str_calculate
