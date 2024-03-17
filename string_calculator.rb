@@ -2,7 +2,7 @@ class StrCalculator
   def initialize(str)
     @str = str
   end
-  
+
   def str_calculate
     if @str.empty?
       "empty str"
@@ -37,6 +37,12 @@ class StrCalculator
 end
 
 # Test cases
+calculator1 = StrCalculator.new("")
+puts calculator1.str_calculate  # Output: 0
+
+calculator1 = StrCalculator.new("1,2,7")
+puts calculator1.str_calculate  # Output: 10 (1 + 2 + 7)
+
 calculator1 = StrCalculator.new("1\n2,3")
 puts calculator1.str_calculate  # Output: 6 (1 + 2 + 3)
 
