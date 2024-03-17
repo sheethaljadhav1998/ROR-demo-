@@ -1,8 +1,8 @@
 def str_calculator(str)
-  return "empty str" if str.empty?
-
-  # Split the string by commas, Convert strings to integers and sum them
-  str.split(",").map(&:to_i).inject(0, :+)
+  # Checking empty string, Splitting the string by commas or newlines, Convert strings to integers and sum them
+   str.empty? ? "empty str" : str.split(/,\s*/).map(&:to_i).inject(0, :+)
 end
 
-puts str_calculator("1,2,3")   #Two or more Numbers 
+puts str_calculator("1\n2,3")   #Numbers separated by newline
+
+# Output: 6 (1 + 2 + 3)
