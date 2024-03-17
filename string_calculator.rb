@@ -2,10 +2,10 @@ class StrCalculator
   def initialize(str)
     @str = str
   end
-
+  
   def str_calculate
     if @str.empty?
-      0 # instaed of empty string will display 0 count
+      "empty str"
     else
       begin
         delimiter, numbers = extract_delimiter_and_numbers(@str)
@@ -37,17 +37,11 @@ class StrCalculator
 end
 
 # Test cases
-calculator1 = StrCalculator.new("")
-puts calculator1.str_calculate  # Output: 0
-
-calculator1 = StrCalculator.new("1,2,7")
-puts calculator1.str_calculate  # Output: 10 (1 + 2 + 7)
-
 calculator1 = StrCalculator.new("1\n2,3")
 puts calculator1.str_calculate  # Output: 6 (1 + 2 + 3)
 
-calculator2 = StrCalculator.new("//;\n1;-2;3")
-# This will print: "Negative numbers not allowed: -2"
+calculator2 = StrCalculator.new("//;\n1;-2;-3;4;-5")
+# This will print: "Negative numbers not allowed: -2, -3, -5"
 puts calculator2.str_calculate
 
 calculator3 = StrCalculator.new("3\n-1")
